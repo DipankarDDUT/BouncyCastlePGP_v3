@@ -83,9 +83,27 @@ public class Main {
 
 			byte[] signed_message = a.sign(byteArr, privatekey, passphrase, false);
 			System.out.println("SignedMessage\n" + signed_message);
+			
+			
+			String decoded = new String(signed_message, "ISO-8859-1");
+		    System.out.println("decoded:" + decoded);
+
+		    byte[] encoded = decoded.getBytes("ISO-8859-1"); 
+		   // System.out.println("encoded:" + java.util.Arrays.toString(encoded));
+
+		   // String decryptedText = encrypter.decrypt(encoded);
+			
+			
+			
+			
+			
+			String sig=new String(signed_message);
+			//byte[] bbb=sig.getBytes();
+			//System.out.println(sig);
+//			String p="[B@e01a26b£xœ›ÀËÌÀÄ$¹[¨ä©º3ãiÁ$´ÌœÔ¼ÄÜÔ¸ÍkL‹S;²0021h³2?TdóŠ3JsólÀ¬âÄÌìÌDSSS‡ôÜÄÌ½äü\\.N˜‘mÚÌÿÓ&ßâhqˆ÷²?Wı$0lù}§?—Df|·»ÿŞ·%TÒâmäåhŞçÂ¯æ½»mkôaföËÕ¦“O™õ4l»p÷S¶?+IªVZ÷+½]}M Îd«î¬NËŞ?ûœNj¯É®½Ôáı*é‡½İßıZ#ìÒMİ4°†{±\–Õ¿ë‡";
 			// verify
 			Verify b = new Verify();
-			boolean x = b.verify(signed_message, publicKey);
+			boolean x = b.verify(encoded, publicKey);
 			System.out.println("Verification\n" + x);
 		} catch (PGPException e) {
 			System.out.println(e.toString());
