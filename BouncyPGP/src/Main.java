@@ -1,7 +1,9 @@
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -44,7 +46,9 @@ public class Main {
 	static {
 		Security.addProvider(provider);
 	}
-
+	 static String FILEPATH = "sign"; 
+	    static File file = new File(FILEPATH);
+	    static File file2 = new File("sign");
 	public static void main(String[] args) {
 
 		try {
@@ -87,7 +91,41 @@ public class Main {
 			
 			String decoded = new String(signed_message, "ISO-8859-1");
 		    System.out.println("decoded:" + decoded);
+		    
+		    //----------------------		    
+//		    static String FILEPATH = ""; 
+//		    static File file = new File(FILEPATH); 
+		  
+		    // Method which write the bytes into a file 
+	
+					// Initialize a pointer
+					// in file using OutputStream
+					OutputStream os = new FileOutputStream(file);
 
+					// Starts writing the bytes in it
+					os.write(signed_message);
+					System.out.println("Successfully" + " byte inserted");
+					
+					
+					
+				        FileInputStream fin = null;
+				      
+				            // create FileInputStream object
+				            fin = new FileInputStream(file2);
+				 
+				            byte fileContent[] = new byte[(int)file2.length()];
+				             
+				            // Reads up to certain bytes of data from this input stream into an array of bytes.
+				            fin.read(fileContent);
+				            //create string from byte array
+				            String sssss = new String(fileContent);
+				            System.out.println("File content: " + sssss);
+					
+		    
+		    //-----------------------
+		    
+//		    String decoded2="£x??ÀËÌÀÄ$¹[¨ä©º3ãi¡$?´Ì?Ô¼ÄÜÔ¸Í%?S;²0021h³2?DTdó?3JsólÀ¬âÄÌìÌDSSS?ôÜÄÌ½äü\\;.N??[v±0ìú}¦'­JÛõÄK/s-£.Á¢÷ı¶Óø'êR¨3??\r\n" + 
+//		    		"}¹n?ñÙ??ÌÏm?Äéö´?ÿsæê'Î¾¿]ùwõíã?¾Òı8uïj\\İp©f±Åq???»»¯ı??»qxçòï%ì?z?s¯÷]s4M§G?GíÛ¯i_NWtØk.W?tNøg=ïI";
 		    byte[] encoded = decoded.getBytes("ISO-8859-1"); 
 		   // System.out.println("encoded:" + java.util.Arrays.toString(encoded));
 
@@ -103,7 +141,7 @@ public class Main {
 //			String p="[B@e01a26b£xœ›ÀËÌÀÄ$¹[¨ä©º3ãiÁ$´ÌœÔ¼ÄÜÔ¸ÍkL‹S;²0021h³2?TdóŠ3JsólÀ¬âÄÌìÌDSSS‡ôÜÄÌ½äü\\.N˜‘mÚÌÿÓ&ßâhqˆ÷²?Wı$0lù}§?—Df|·»ÿŞ·%TÒâmäåhŞçÂ¯æ½»mkôaföËÕ¦“O™õ4l»p÷S¶?+IªVZ÷+½]}M Îd«î¬NËŞ?ûœNj¯É®½Ôáı*é‡½İßıZ#ìÒMİ4°†{±\–Õ¿ë‡";
 			// verify
 			Verify b = new Verify();
-			boolean x = b.verify(encoded, publicKey);
+			boolean x = b.verify(fileContent, publicKey);
 			System.out.println("Verification\n" + x);
 		} catch (PGPException e) {
 			System.out.println(e.toString());
