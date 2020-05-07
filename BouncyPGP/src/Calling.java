@@ -121,13 +121,13 @@ public class Calling {
 				            //create string from byte array
 				            String sssss = new String(fileContent);
 				            System.out.println("File content: " + sssss);
+				             
+				            byte[] bbbb=sssss.getBytes();
 					
 		    
 		    //-----------------------
 		    
-//		    String decoded2="£x??ÀËÌÀÄ$¹[¨ä©º3ãi¡$?´Ì?Ô¼ÄÜÔ¸Í%?S;²0021h³2?DTdó?3JsólÀ¬âÄÌìÌDSSS?ôÜÄÌ½äü\\;.N??[v±0ìú}¦'­JÛõÄK/s-£.Á¢÷ı¶Óø'êR¨3??\r\n" + 
-//		    		"}¹n?ñÙ??ÌÏm?Äéö´?ÿsæê'Î¾¿]ùwõíã?¾Òı8uïj\\İp©f±Åq???»»¯ı??»qxçòï%ì?z?s¯÷]s4M§G?GíÛ¯i_NWtØk.W?tNøg=ïI";
-		    byte[] encoded = decoded.getBytes("ISO-8859-1"); 
+//		      byte[] encoded = decoded.getBytes("ISO-8859-1"); 
 		   // System.out.println("encoded:" + java.util.Arrays.toString(encoded));
 
 		   // String decryptedText = encrypter.decrypt(encoded);
@@ -139,8 +139,7 @@ public class Calling {
 			String sig=new String(signed_message);
 			//byte[] bbb=sig.getBytes();
 			//System.out.println(sig);
-//			String p="[B@e01a26b£xœ›ÀËÌÀÄ$¹[¨ä©º3ãiÁ$´ÌœÔ¼ÄÜÔ¸ÍkL‹S;²0021h³2?TdóŠ3JsólÀ¬âÄÌìÌDSSS‡ôÜÄÌ½äü\\.N˜‘mÚÌÿÓ&ßâhqˆ÷²?Wı$0lù}§?—Df|·»ÿŞ·%TÒâmäåhŞçÂ¯æ½»mkôaföËÕ¦“O™õ4l»p÷S¶?+IªVZ÷+½]}M Îd«î¬NËŞ?ûœNj¯É®½Ôáı*é‡½İßıZ#ìÒMİ4°†{±\–Õ¿ë‡";
-			// verify
+//				// verify
 			Verify b = new Verify();
 			boolean x = b.verify(fileContent, publicKey);
 			System.out.println("Verification\n" + x);
