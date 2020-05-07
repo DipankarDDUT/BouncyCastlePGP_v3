@@ -15,57 +15,48 @@ import org.bouncycastle.openpgp.jcajce.JcaPGPObjectFactory;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentVerifierBuilderProvider;
 
 public class Verify {
-	
+
 	private static final BouncyCastleProvider provider = new BouncyCastleProvider();
 	static {
 		Security.addProvider(provider);
 	}
-	 public static boolean verify( byte[] signedMessage, PGPPublicKey publicKey ) throws PGPException
-	    {
-	        try
-	        {
-	            InputStream in = PGPUtil.getDecoderStream( new ByteArrayInputStream( signedMessage ) );
 
-	            JcaPGPObjectFactory pgpFact = new JcaPGPObjectFactory( in );
+	public static boolean verify(byte[] signedMessage, PGPPublicKey publicKey) throws PGPException {
+		try {
+			InputStream in = PGPUtil.getDecoderStream(new ByteArrayInputStream(signedMessage));
 
-	            PGPCompressedData c1 = ( PGPCompressedData ) pgpFact.nextObject();
+			JcaPGPObjectFactory pgpFact = new JcaPGPObjectFactory(in);
 
-	            pgpFact = new JcaPGPObjectFactory( c1.getDataStream() );
+			PGPCompressedData c1 = (PGPCompressedData) pgpFact.nextObject();
 
-	            PGPOnePassSignatureList p1 = ( PGPOnePassSignatureList ) pgpFact.nextObject();
+			pgpFact = new JcaPGPObjectFactory(c1.getDataStream());
 
-	            PGPOnePassSignature ops = p1.get( 0 );
+			PGPOnePassSignatureList p1 = (PGPOnePassSignatureList) pgpFact.nextObject();
 
-	            PGPLiteralData p2 = ( PGPLiteralData ) pgpFact.nextObject();
+			PGPOnePassSignature ops = p1.get(0);
 
-	            InputStream dIn = p2.getInputStream();
-	            int ch;
-System.out.print("dadsdsad");
+			PGPLiteralData p2 = (PGPLiteralData) pgpFact.nextObject();
 
-	            ops.init( new JcaPGPContentVerifierBuilderProvider().setProvider( provider ), publicKey );
+			InputStream dIn = p2.getInputStream();
+			int ch;
+//System.out.print("dadsdsad"); used for testing
 
-	            while ( ( ch = dIn.read() ) >= 0 )
-	            {
-	                ops.update( ( byte ) ch );
-	            }
+			ops.init(new JcaPGPContentVerifierBuilderProvider().setProvider(provider), publicKey);
 
-	            PGPSignatureList p3 = ( PGPSignatureList ) pgpFact.nextObject();
+			while ((ch = dIn.read()) >= 0) {
+				ops.update((byte) ch);
+			}
 
-	            if ( ops.verify( p3.get( 0 ) ) )
-	            {
-	                return true;
-	            }
-	            else
-	            {
-	                return false;
-	            }
-	        }
-	        catch ( Exception e )
-	        {
-	            throw new PGPException( "Error in verify", e );
-	        }
-	    }
+			PGPSignatureList p3 = (PGPSignatureList) pgpFact.nextObject();
 
-
+			if (ops.verify(p3.get(0))) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			throw new PGPException("Error in verify", e);
+		}
+	}
 
 }
